@@ -1,0 +1,31 @@
+pattern_id,van_ban,dieu,bat_buoc,loai,ghi_chu
+FP01,Luật Hôn nhân và Gia đình 2014,Điều 59,yes,noi_dung,Nguyên tắc chia tài sản khi ly hôn
+FP01,Luật Hôn nhân và Gia đình 2014,Điều 62,yes,noi_dung,Chia quyền sử dụng đất khi ly hôn
+FP01,Luật Hôn nhân và Gia đình 2014,Điều 131,no,chuyen_tiep,Điều khoản chuyển tiếp
+FP01,Luật Hôn nhân và Gia đình 2000,"Điều 95, 97, 98",yes,luat_cu,"QUAN TRỌNG - tòa áp dụng LUẬT ĐÃ HẾT HIỆU LỰC vì tài sản hình thành thời kỳ luật cũ"
+FP01,Bộ luật Dân sự 2015,"Điều 213, 219",yes,noi_dung,Sở hữu chung
+FP01,Luật Đất đai 2013,"khoản 2 và 3 Điều 170",yes,luat_cu,LUẬT ĐÃ BỊ THAY THẾ bởi Luật Đất đai 2024 - vẫn được áp dụng
+FP01,TTLT 01/2016/TTLT-TANDTC-VKSNDTC-BTP,Điều 7,yes,noi_dung,Nguyên tắc chia tài sản - điều trung tâm
+FP01,Nghị quyết 326/2016/UBTVQH14,điểm b khoản 5 Điều 27,no,an_phi,Án phí
+FP02,Luật Hôn nhân và Gia đình 2014,Điều 33,yes,noi_dung,Tài sản chung
+FP02,Luật Hôn nhân và Gia đình 2014,Điều 43,yes,noi_dung,Tài sản riêng - điều quyết định kết quả
+FP02,Luật Hôn nhân và Gia đình 2014,Điều 59,yes,noi_dung,Nguyên tắc chia
+FP02,Luật Hôn nhân và Gia đình 2014,Điều 61,yes,noi_dung,Sống chung với gia đình
+FP02,Luật Hôn nhân và Gia đình 2014,Điều 62,yes,noi_dung,Chia quyền sử dụng đất
+FP02,Luật Hôn nhân và Gia đình 2014,Điều 63,yes,noi_dung,Quyền lưu cư
+FP02,Luật Hôn nhân và Gia đình 2014,"Điều 9, 16, 56",no,thu_tuc,Kết hôn và ly hôn
+FP02,Bộ luật Dân sự 2015,"Điều 357, 468",no,lai_suat,Lãi chậm trả
+FP03,Luật Hôn nhân và Gia đình 2014,Điều 37,yes,noi_dung,Nghĩa vụ chung về tài sản
+FP03,Luật Hôn nhân và Gia đình 2014,Điều 60,yes,noi_dung,Nghĩa vụ tài sản với người thứ ba khi ly hôn
+FP03,Luật Hôn nhân và Gia đình 2014,Điều 55,no,thu_tuc,Thuận tình ly hôn
+FP03,Bộ luật Dân sự 2015,"Điều 357, 430, 440, 468",yes,noi_dung,Mua bán và lãi chậm trả
+FP03,Luật Các tổ chức tín dụng,Điều 100,no,ngan_hang,Khoản vay ngân hàng chính sách
+FP04,Luật Hôn nhân và Gia đình 2014,Điều 61,yes,noi_dung,Chia tài sản khi sống chung với gia đình - điều quyết định
+FP04,Luật Hôn nhân và Gia đình 2014,Điều 59,yes,noi_dung,Nguyên tắc chia
+FP04,Luật Hôn nhân và Gia đình 2014,"Điều 51, 56",no,thu_tuc,Quyền yêu cầu ly hôn
+FP05,Án lệ 82/2025/AL,toàn bộ,yes,an_le,"Phải dán nhãn: án lệ, bắt buộc nghiên cứu áp dụng, không phải VBQPPL"
+FP05,Luật Hôn nhân và Gia đình 2000,"khoản 7 Điều 8, Điều 27, 32, 95",yes,luat_cu,Án lệ tự nêu - luật áp dụng cho sự việc 2013
+FP05,Luật Hôn nhân và Gia đình 2014,"khoản 13 Điều 3, Điều 33, 43, 59",yes,noi_dung,Án lệ tự nêu điều tương ứng của luật hiện hành
+FP05,Bộ luật Dân sự 2005,Điều 215,yes,luat_cu,Án lệ tự nêu
+FP05,Bộ luật Dân sự 2015,Điều 208,yes,noi_dung,Án lệ tự nêu điều tương ứng
+FP06,,,,,PHẢI TRẢ VỀ RỖNG - mọi trích dẫn đều là sai
