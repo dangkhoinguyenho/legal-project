@@ -1,25 +1,28 @@
-doc_key,rank,so_hieu,ten_van_ban,loai,scope,ghi_chu
-L52-2014,2,52/2014/QH13,Luật Hôn nhân và Gia đình 2014,luat,core,"DÙNG VBHN 121/VBHN-VPQH 2025 - đã sửa bởi Luật 81/2025/QH15. D33-46, D38-42, D47-50, D59-64"
-BLDS-2015,2,91/2015/QH13,Bộ luật Dân sự 2015,luat,core,"Sở hữu chung, giao dịch, thời hiệu. D50 LHNGĐ dẫn chiếu trực tiếp"
-BLTTDS-2015,2,92/2015/QH13,Bộ luật Tố tụng dân sự 2015,luat,core,"PHẢI kèm Luật 85/2025/QH15 - thẩm quyền nay là Tòa án nhân dân khu vực"
-L85-2025,2,85/2025/QH15,Luật sửa đổi BLTTDS và các luật tố tụng,luat,core,"Hiệu lực 01/7/2025. Bỏ tòa cấp huyện"
-LCC-2024,2,46/2024/QH15,Luật Công chứng 2024,luat,core,"Hiệu lực 01/7/2025. Thay Luật Công chứng 2014. D44 - công chứng BĐS theo tỉnh nơi có đất"
-LDD-2024,2,31/2024/QH15,Luật Đất đai 2024,luat,core,"D27.3 công chứng, D135.4 sổ đỏ ghi tên hai vợ chồng. Hiệu lực 01/8/2024 theo Luật 43/2024"
-LNO-2023,2,27/2023/QH15,Luật Nhà ở 2023,luat,core,"D164.1 công chứng giao dịch nhà ở. Hiệu lực 01/8/2024 theo Luật 43/2024"
-LDN-2020,2,59/2020/QH14,Luật Doanh nghiệp 2020,luat,related,"PHẢI kèm Luật 76/2025/QH15 (hiệu lực 01/7/2025). Cần cho D64 LHNGĐ"
-LTHADS-2025,2,106/2025/QH15,Luật Thi hành án dân sự 2025,luat,related,"Hiệu lực 01/7/2026. Thay Luật THADS 2008. Kê biên, xác định phần sở hữu vợ chồng"
-L43-2024,2,43/2024/QH15,Luật sửa đổi Luật Đất đai Nhà ở KDBĐS TCTD,luat,related,"Chuyển hiệu lực Đất đai 2024 và Nhà ở 2023 về 01/8/2024"
-PL05-2024,3,05/2024/UBTVQH15,Pháp lệnh Chi phí tố tụng,phap_lenh,related,"Hiệu lực 01/7/2025. Chi phí định giá tài sản tranh chấp"
-NQ326-2016,3,326/2016/UBTVQH14,Nghị quyết về án phí lệ phí Tòa án,nghi_quyet_ubtvqh,related,"Án phí có giá ngạch theo giá trị tài sản. CHƯA xác minh được tình trạng chính thức"
-ND126-2014,5,126/2014/NĐ-CP,Nghị định quy định chi tiết thi hành Luật HNGĐ,nghi_dinh,core,Hướng dẫn L52-2014
-ND104-2025,5,104/2025/NĐ-CP,Nghị định hướng dẫn Luật Công chứng 2024,nghi_dinh,related,Hiệu lực 01/7/2025
-ND101-2024,5,101/2024/NĐ-CP,Nghị định về đăng ký cấp Giấy chứng nhận QSDĐ,nghi_dinh,related,"D29, D30.11, D37 - đăng ký biến động sau khi chia. Kèm NĐ 226/2025 sửa đổi"
-NQ01-2024,7,01/2024/NQ-HĐTP,Nghị quyết HĐTP hướng dẫn giải quyết vụ việc HNGĐ,nghi_quyet_hdtp,core,"Hiệu lực 01/7/2024. RANK 7 - CAO HƠN TTLT 01/2016"
-TTLT01-2016,9,01/2016/TTLT-TANDTC-VKSNDTC-BTP,Thông tư liên tịch hướng dẫn thi hành Luật HNGĐ,thong_tu_lien_tich,core,"D7 = nguyên tắc chia tài sản, 6 khoản. RANK 9 - THẤP NHẤT trong nhóm VBQPPL"
-ND82-2020,5,82/2020/NĐ-CP,Nghị định xử phạt hành chính lĩnh vực HNGĐ và THADS,nghi_dinh,control,Không được trích cho câu hỏi chia tài sản
-ND207-2025,5,207/2025/NĐ-CP,Nghị định về mang thai hộ và hỗ trợ sinh sản,nghi_dinh,control,Không được trích cho câu hỏi chia tài sản
-TT32-2016,8,32/2016/TT-BYT,Thông tư về chi phí y tế mang thai hộ,thong_tu,control,Không được trích cho câu hỏi chia tài sản
-TT34-2017,8,34/2017/TT-BYT,Thông tư về sàng lọc trước sinh và sơ sinh,thong_tu,control,Không được trích cho câu hỏi chia tài sản
-TT30-2019,8,30/2019/TT-BYT,Thông tư sửa đổi Thông tư 34/2017/TT-BYT,thong_tu,control,Không được trích cho câu hỏi chia tài sản
-CV253-2018,99,253/TANDTC-PC,Công văn về ly hôn có yếu tố người VN ở nước ngoài,cong_van,related,"KHÔNG phải VBQPPL. rank 99 = ngoài hệ thống Điều 4. Không được là căn cứ pháp lý"
-AL-set,98,,Tập án lệ nhánh tài sản vợ chồng,an_le,core,"rank 98 = ngoài hệ thống Điều 4. Gồm Án lệ 03/2016/AL. Chi tiết ở anle.csv"
+doc_key,rank,so_hieu,ten_van_ban,loai,scope,ban_co_tham_quyen,vbhn_ngay,ghi_chu
+L52-2014,2,52/2014/QH13,Luật Hôn nhân và Gia đình 2014,luat,core,121/VBHN-VPQH,27/08/2025,"D33-64 CHUA HE BI SUA tu 2014. Sua duy nhat: khoan 3 D123 boi Luat 81/2025"
+BLDS-2015,2,91/2015/QH13,Bộ luật Dân sự 2015,luat,core,91/2015/QH13,,"KHONG co VBHN - chua he bi sua lan nao. Dung ban goc"
+BLTTDS-2015,2,92/2015/QH13,Bộ luật Tố tụng dân sự 2015,luat,core,21/VBHN-VPQH,12/02/2026,"Hop nhat 8 luat sua doi ke ca 85/2025 va 142/2025"
+LDD-2024,2,31/2024/QH15,Luật Đất đai 2024,luat,core,44/VBHN-VPQH,16/03/2026,"D27.3 cong chung, D135.4 so do ghi ten hai vo chong"
+LNO-2023,2,27/2023/QH15,Luật Nhà ở 2023,luat,core,79/VBHN-VPQH,26/03/2026,D164.1 cong chung giao dich nha o
+LCC-2024,2,46/2024/QH15,Luật Công chứng 2024,luat,core,109/VBHN-VPQH,19/05/2026,"D44 cong chung BDS theo tinh. CHUA gom Luat 04/2026/QH16 (hieu luc 01/01/2027)"
+LDN-2020,2,59/2020/QH14,Luật Doanh nghiệp 2020,luat,related,67/VBHN-VPQH,15/08/2025,"D53 xu ly von gop khi ly hon va D127 chuyen nhuong co phan DEU CHUA BI SUA"
+LTHADS-2025,2,106/2025/QH15,Luật Thi hành án dân sự 2025,luat,related,106/2025/QH15,,"Hieu luc 01/07/2026. Chua co VBHN - luat moi"
+PL05-2024,3,05/2024/UBTVQH15,Pháp lệnh Chi phí tố tụng,phap_lenh,related,05/2024/UBTVQH15,,Chi phi dinh gia tai san tranh chap
+NQ326-2016,3,326/2016/UBTVQH14,Nghị quyết về án phí lệ phí Tòa án,nghi_quyet_ubtvqh,related,326/2016/UBTVQH14,,An phi theo gia tri tai san. CHUA xac minh chinh thuc
+ND126-2014,5,126/2014/NĐ-CP,Nghị định quy định chi tiết thi hành Luật HNGĐ,nghi_dinh,core,126/2014/NĐ-CP,,"D19-D50 DA CHET tu 01/01/2016. Phan tai san o Chuong II con song. Xem article_status.csv"
+ND101-2024,5,101/2024/NĐ-CP,Nghị định về đăng ký cấp Giấy chứng nhận QSDĐ,nghi_dinh,related,101/2024/NĐ-CP,,"D29, D30.11, D37 - dang ky bien dong sau khi chia. Da bi sua boi 226/2025 va 49/2026"
+NQ01-2024,7,01/2024/NQ-HĐTP,Nghị quyết HĐTP hướng dẫn giải quyết vụ việc HNGĐ,nghi_quyet_hdtp,core,01/2024/NQ-HĐTP,,RANK 7 - CAO HON TTLT 01/2016
+TTLT01-2016,9,01/2016/TTLT-TANDTC-VKSNDTC-BTP,Thông tư liên tịch hướng dẫn thi hành Luật HNGĐ,thong_tu_lien_tich,core,01/2016/TTLT-TANDTC-VKSNDTC-BTP,,"D7 = nguyen tac chia tai san. KHONG co VBHN - chua he bi sua"
+L81-2025,2,81/2025/QH15,Luật sửa đổi Luật Tổ chức Tòa án nhân dân,luat,metadata,81/2025/QH15,,"Sua duy nhat khoan 3 D123 LHNGD. Bang chung D33-64 con nguyen"
+L85-2025,2,85/2025/QH15,Luật sửa đổi BLTTDS và các luật tố tụng,luat,metadata,85/2025/QH15,,Bo toa cap huyen - so tham nay la Toa an nhan dan khu vuc
+L43-2024,2,43/2024/QH15,Luật sửa đổi Luật Đất đai Nhà ở KDBĐS TCTD,luat,metadata,43/2024/QH15,,Chuyen hieu luc Dat dai va Nha o ve 01/08/2024
+L76-2025,2,76/2025/QH15,Luật sửa đổi Luật Doanh nghiệp,luat,metadata,76/2025/QH15,,"Sua D52 (chuyen nhuong von gop pro-rata). D53 va D127 KHONG bi sua"
+L04-2026,2,04/2026/QH16,Luật sửa đổi Luật Công chứng,luat,metadata,04/2026/QH16,,"Sua D3 D19 D44 D66. HIEU LUC 01/01/2027 - CHUA AP DUNG hom nay"
+ND123-2015,5,123/2015/NĐ-CP,Nghị định hướng dẫn Luật Hộ tịch,nghi_dinh,metadata,123/2015/NĐ-CP,,"D45 GIET D19-D50 cua ND 126/2014. Bat buoc co de biet dieu nao con song"
+ND109-2026,5,109/2026/NĐ-CP,Nghị định xử phạt VPHC bổ trợ tư pháp HNGĐ THADS,nghi_dinh,metadata,109/2026/NĐ-CP,,"Hieu luc 18/05/2026. THAY THE ND 82/2020 - nen 82/2020 DA CHET"
+ND82-2020,5,82/2020/NĐ-CP,Nghị định xử phạt hành chính lĩnh vực HNGĐ,nghi_dinh,control,82/2020/NĐ-CP,,"DA HET HIEU LUC 18/05/2026 (bi 109/2026 thay the). Giu lam negative control"
+ND207-2025,5,207/2025/NĐ-CP,Nghị định về mang thai hộ và hỗ trợ sinh sản,nghi_dinh,control,207/2025/NĐ-CP,,Khong duoc trich cho cau hoi chia tai san
+TT32-2016,8,32/2016/TT-BYT,Thông tư về chi phí y tế mang thai hộ,thong_tu,control,32/2016/TT-BYT,,Khong duoc trich cho cau hoi chia tai san
+TT34-2017,8,34/2017/TT-BYT,Thông tư về sàng lọc trước sinh và sơ sinh,thong_tu,control,02/VBHN-BYT,18/03/2020,Khong duoc trich cho cau hoi chia tai san
+CV253-2018,99,253/TANDTC-PC,Công văn về ly hôn có yếu tố người VN ở nước ngoài,cong_van,related,253/TANDTC-PC,,"KHONG phai VBQPPL. Khong co trong kho vbpl - dung nhu du doan"
+AL-set,98,,Tập án lệ nhánh tài sản vợ chồng,an_le,core,,,"Gom An le 03/2016/AL (dat cha me chong cho - tai san chung hay rieng)"

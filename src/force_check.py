@@ -17,6 +17,10 @@ THIẾT KẾ DỰA TRÊN DỮ LIỆU THẬT, không dựa trên trang mô tả:
 3. Điều 58 khoản 2 Luật BHVBQPPL: áp dụng văn bản có hiệu lực TẠI THỜI ĐIỂM
    XẢY RA SỰ VIỆC. Nên hàm này bắt buộc nhận `ngay_su_viec`, không mặc định hôm nay.
 
+4. DỮ LIỆU CÓ NGÀY VÔ LÝ. Trong kho có văn bản đề ngày 13/03/**3024**. Nó ĐÚNG
+   ĐỊNH DẠNG nên mọi kiểm tra định dạng đều cho qua. Kiểm định dạng KHÔNG PHẢI
+   kiểm mức hợp lý. Nên có thêm chặn khoảng năm.
+
 NGUYÊN TẮC: dùng HAI tín hiệu độc lập (ngày và chuỗi trạng thái). Nếu chúng
 mâu thuẫn nhau -> báo lỗi to. Một tín hiệu im lặng sai thì nguy hiểm hơn hai
 tín hiệu cãi nhau.
@@ -34,8 +38,13 @@ HET_HIEU_LUC = "HET_HIEU_LUC"          # trích luật đã chết
 MOT_PHAN = "HET_HIEU_LUC_MOT_PHAN"     # phải kiểm tay ở mức điều khoản
 THIEU_DU_LIEU = "THIEU_DU_LIEU"        # không đủ dữ liệu để kết luận
 MAU_THUAN = "MAU_THUAN_DU_LIEU"        # hai tín hiệu cãi nhau -> dữ liệu có vấn đề
+NGAY_VO_LY = "NGAY_VO_LY"              # ngày đúng định dạng nhưng không thể có thật
 
-CHAN = {CHUA_CO_HIEU_LUC, HET_HIEU_LUC, THIEU_DU_LIEU, MAU_THUAN}
+CHAN = {CHUA_CO_HIEU_LUC, HET_HIEU_LUC, THIEU_DU_LIEU, MAU_THUAN, NGAY_VO_LY}
+
+# Văn bản QPPL của nước CHXHCN Việt Nam. Nới rộng về 1945 cho an toàn.
+NAM_SOM_NHAT = 1945
+NAM_MUON_NHAT = 2100
 
 
 @dataclass
@@ -65,12 +74,26 @@ def doc_ngay(s: str | None) -> date | None:
         return None
 
 
+def ngay_hop_ly(d: date | None) -> bool:
+    """Định dạng đúng chưa đủ. 13/03/3024 parse ngon lành nhưng vô lý."""
+    return d is None or NAM_SOM_NHAT <= d.year <= NAM_MUON_NHAT
+
+
 def kiem_tra(doc: dict, ngay_su_viec: date) -> KetQua:
     """doc = một dòng metadata từ vbpl. ngay_su_viec = ngày xảy ra sự việc."""
     so_hieu = (doc.get("so_ky_hieu") or "?").strip()
     trang_thai = (doc.get("tinh_trang_hieu_luc") or "").strip()
     hl_tu = doc_ngay(doc.get("ngay_co_hieu_luc"))
     het = doc_ngay(doc.get("ngay_het_hieu_luc"))
+
+    # --- Chặn 0: ngày có hợp lý không? ---
+    for ten, d in (("ngay_co_hieu_luc", hl_tu), ("ngay_het_hieu_luc", het)):
+        if not ngay_hop_ly(d):
+            return KetQua(NGAY_VO_LY, so_hieu,
+                          f"{ten} = {d} — dung dinh dang nhung nam ngoai "
+                          f"[{NAM_SOM_NHAT}, {NAM_MUON_NHAT}]. Du lieu hong.")
+    if not ngay_hop_ly(ngay_su_viec):
+        return KetQua(NGAY_VO_LY, so_hieu, f"ngay_su_viec = {ngay_su_viec} vo ly.")
 
     # --- Tín hiệu 1: ngày ---
     if hl_tu is None:

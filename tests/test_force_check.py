@@ -15,8 +15,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from force_check import (  # noqa: E402
-    CHUA_CO_HIEU_LUC, HET_HIEU_LUC, MAU_THUAN, MOT_PHAN, OK, THIEU_DU_LIEU,
-    kiem_tra,
+    CHUA_CO_HIEU_LUC, HET_HIEU_LUC, MAU_THUAN, MOT_PHAN, NGAY_VO_LY, OK,
+    THIEU_DU_LIEU, kiem_tra,
 )
 
 # Dữ liệu thật lấy từ data/raw/metadata_matched.csv
@@ -117,3 +117,20 @@ def test_ngay_sai_dinh_dang_khong_bi_hieu_nham():
         "tinh_trang_hieu_luc": "Còn hiệu lực",
     }
     assert kiem_tra(sai, date(2024, 6, 1)).ma == THIEU_DU_LIEU
+
+
+def test_bat_duoc_ngay_dung_dinh_dang_nhung_vo_ly():
+    """Trong kho vbpl CO THAT mot van ban de ngay 13/03/3024.
+    Kiem dinh dang cho qua vi no dung dinh dang. Phai kiem ca muc hop ly."""
+    rac = {
+        "so_ky_hieu": "R/3024/NĐ-CP",
+        "ngay_co_hieu_luc": "13/03/3024",
+        "ngay_het_hieu_luc": "",
+        "tinh_trang_hieu_luc": "Còn hiệu lực",
+    }
+    kq = kiem_tra(rac, date(2024, 6, 1))
+    assert kq.ma == NGAY_VO_LY and kq.bi_chan
+
+
+def test_ngay_su_viec_vo_ly_cung_bi_chan():
+    assert kiem_tra(LUAT_HNGD, date(3024, 1, 1)).ma == NGAY_VO_LY
