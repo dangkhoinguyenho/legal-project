@@ -1,0 +1,25 @@
+doc_key,rank,so_hieu,ten_van_ban,loai,scope,ghi_chu
+L52-2014,2,52/2014/QH13,Luật Hôn nhân và Gia đình 2014,luat,core,"DÙNG VBHN 121/VBHN-VPQH 2025 - đã sửa bởi Luật 81/2025/QH15. D33-46, D38-42, D47-50, D59-64"
+BLDS-2015,2,91/2015/QH13,Bộ luật Dân sự 2015,luat,core,"Sở hữu chung, giao dịch, thời hiệu. D50 LHNGĐ dẫn chiếu trực tiếp"
+BLTTDS-2015,2,92/2015/QH13,Bộ luật Tố tụng dân sự 2015,luat,core,"PHẢI kèm Luật 85/2025/QH15 - thẩm quyền nay là Tòa án nhân dân khu vực"
+L85-2025,2,85/2025/QH15,Luật sửa đổi BLTTDS và các luật tố tụng,luat,core,"Hiệu lực 01/7/2025. Bỏ tòa cấp huyện"
+LCC-2024,2,46/2024/QH15,Luật Công chứng 2024,luat,core,"Hiệu lực 01/7/2025. Thay Luật Công chứng 2014. D44 - công chứng BĐS theo tỉnh nơi có đất"
+LDD-2024,2,31/2024/QH15,Luật Đất đai 2024,luat,core,"D27.3 công chứng, D135.4 sổ đỏ ghi tên hai vợ chồng. Hiệu lực 01/8/2024 theo Luật 43/2024"
+LNO-2023,2,27/2023/QH15,Luật Nhà ở 2023,luat,core,"D164.1 công chứng giao dịch nhà ở. Hiệu lực 01/8/2024 theo Luật 43/2024"
+LDN-2020,2,59/2020/QH14,Luật Doanh nghiệp 2020,luat,related,"PHẢI kèm Luật 76/2025/QH15 (hiệu lực 01/7/2025). Cần cho D64 LHNGĐ"
+LTHADS-2025,2,106/2025/QH15,Luật Thi hành án dân sự 2025,luat,related,"Hiệu lực 01/7/2026. Thay Luật THADS 2008. Kê biên, xác định phần sở hữu vợ chồng"
+L43-2024,2,43/2024/QH15,Luật sửa đổi Luật Đất đai Nhà ở KDBĐS TCTD,luat,related,"Chuyển hiệu lực Đất đai 2024 và Nhà ở 2023 về 01/8/2024"
+PL05-2024,3,05/2024/UBTVQH15,Pháp lệnh Chi phí tố tụng,phap_lenh,related,"Hiệu lực 01/7/2025. Chi phí định giá tài sản tranh chấp"
+NQ326-2016,3,326/2016/UBTVQH14,Nghị quyết về án phí lệ phí Tòa án,nghi_quyet_ubtvqh,related,"Án phí có giá ngạch theo giá trị tài sản. CHƯA xác minh được tình trạng chính thức"
+ND126-2014,5,126/2014/NĐ-CP,Nghị định quy định chi tiết thi hành Luật HNGĐ,nghi_dinh,core,Hướng dẫn L52-2014
+ND104-2025,5,104/2025/NĐ-CP,Nghị định hướng dẫn Luật Công chứng 2024,nghi_dinh,related,Hiệu lực 01/7/2025
+ND101-2024,5,101/2024/NĐ-CP,Nghị định về đăng ký cấp Giấy chứng nhận QSDĐ,nghi_dinh,related,"D29, D30.11, D37 - đăng ký biến động sau khi chia. Kèm NĐ 226/2025 sửa đổi"
+NQ01-2024,7,01/2024/NQ-HĐTP,Nghị quyết HĐTP hướng dẫn giải quyết vụ việc HNGĐ,nghi_quyet_hdtp,core,"Hiệu lực 01/7/2024. RANK 7 - CAO HƠN TTLT 01/2016"
+TTLT01-2016,9,01/2016/TTLT-TANDTC-VKSNDTC-BTP,Thông tư liên tịch hướng dẫn thi hành Luật HNGĐ,thong_tu_lien_tich,core,"D7 = nguyên tắc chia tài sản, 6 khoản. RANK 9 - THẤP NHẤT trong nhóm VBQPPL"
+ND82-2020,5,82/2020/NĐ-CP,Nghị định xử phạt hành chính lĩnh vực HNGĐ và THADS,nghi_dinh,control,Không được trích cho câu hỏi chia tài sản
+ND207-2025,5,207/2025/NĐ-CP,Nghị định về mang thai hộ và hỗ trợ sinh sản,nghi_dinh,control,Không được trích cho câu hỏi chia tài sản
+TT32-2016,8,32/2016/TT-BYT,Thông tư về chi phí y tế mang thai hộ,thong_tu,control,Không được trích cho câu hỏi chia tài sản
+TT34-2017,8,34/2017/TT-BYT,Thông tư về sàng lọc trước sinh và sơ sinh,thong_tu,control,Không được trích cho câu hỏi chia tài sản
+TT30-2019,8,30/2019/TT-BYT,Thông tư sửa đổi Thông tư 34/2017/TT-BYT,thong_tu,control,Không được trích cho câu hỏi chia tài sản
+CV253-2018,99,253/TANDTC-PC,Công văn về ly hôn có yếu tố người VN ở nước ngoài,cong_van,related,"KHÔNG phải VBQPPL. rank 99 = ngoài hệ thống Điều 4. Không được là căn cứ pháp lý"
+AL-set,98,,Tập án lệ nhánh tài sản vợ chồng,an_le,core,"rank 98 = ngoài hệ thống Điều 4. Gồm Án lệ 03/2016/AL. Chi tiết ở anle.csv"

@@ -1,0 +1,47 @@
+source_ref,target_ref,relation_type,note,verified
+L52-2014#D33,L52-2014#D40,cross_ref,Tài sản chung - dẫn tới hậu quả chia trong thời kỳ hôn nhân,yes
+L52-2014#D33,L52-2014#D59,cross_ref,Tài sản chung - dẫn tới nguyên tắc chia khi ly hôn,yes
+L52-2014#D34,L52-2014#D26,cross_ref,Đăng ký quyền sở hữu tài sản chung,yes
+L52-2014#D38,L52-2014#D42,cross_ref,Chia trong thời kỳ hôn nhân - dẫn tới trường hợp vô hiệu,yes
+L52-2014#D38,L52-2014#D59,cross_ref,Chia trong thời kỳ hôn nhân - dẫn tới chia khi ly hôn,yes
+L52-2014#D40,L52-2014#D33,cross_ref,Hậu quả chia - phần đã chia không còn là tài sản chung,yes
+L52-2014#D40,L52-2014#D43,cross_ref,Hậu quả chia - phần đã chia thành tài sản riêng,yes
+L52-2014#D41,L52-2014#D33,cross_ref,Chấm dứt việc chia - tài sản quay lại thành chung,yes
+L52-2014#D41,L52-2014#D38,cross_ref,Chấm dứt hiệu lực của việc chia theo D38,yes
+L52-2014#D41,L52-2014#D43,cross_ref,Chấm dứt việc chia - ảnh hưởng tài sản riêng,yes
+L52-2014#D43,L52-2014#D33,cross_ref,Tài sản riêng - đối chiếu tài sản chung,yes
+L52-2014#D43,L52-2014#D40,cross_ref,Tài sản riêng gồm phần đã chia theo D38-40,yes
+L52-2014#D48,L52-2014#D29,cross_ref,Nội dung thỏa thuận chế độ tài sản,yes
+L52-2014#D48,L52-2014#D30,cross_ref,Nội dung thỏa thuận chế độ tài sản,yes
+L52-2014#D48,L52-2014#D31,cross_ref,Nội dung thỏa thuận chế độ tài sản,yes
+L52-2014#D48,L52-2014#D32,cross_ref,Nội dung thỏa thuận chế độ tài sản,yes
+L52-2014#D49,L52-2014#D47,cross_ref,Sửa đổi thỏa thuận theo hình thức của D47,yes
+L52-2014#D50,BLDS-2015,external_ref,Thỏa thuận vô hiệu theo quy định Bộ luật Dân sự,yes
+L52-2014#D59,L52-2014#D60,cross_ref,Nguyên tắc chia - dẫn tới nghĩa vụ với người thứ ba,yes
+L52-2014#D59,L52-2014#D61,cross_ref,Nguyên tắc chia - dẫn tới trường hợp sống chung với gia đình,yes
+L52-2014#D59,L52-2014#D62,cross_ref,Nguyên tắc chia - dẫn tới chia quyền sử dụng đất,yes
+L52-2014#D59,L52-2014#D63,cross_ref,Nguyên tắc chia - dẫn tới quyền lưu cư,yes
+L52-2014#D59,L52-2014#D64,cross_ref,Nguyên tắc chia - dẫn tới tài sản đưa vào kinh doanh,yes
+L52-2014#D60,L52-2014#D27,cross_ref,Nghĩa vụ với người thứ ba,yes
+L52-2014#D60,L52-2014#D37,cross_ref,Nghĩa vụ chung về tài sản,yes
+L52-2014#D60,L52-2014#D45,cross_ref,Nghĩa vụ riêng về tài sản,yes
+L52-2014#D60,BLDS-2015,external_ref,Nghĩa vụ với người thứ ba theo Bộ luật Dân sự,yes
+L52-2014#D62,L52-2014#D59,cross_ref,Chia quyền sử dụng đất theo nguyên tắc D59,yes
+L52-2014#D62,LDD-2024#D135,external_ref,Sổ đỏ ghi tên hai vợ chồng - CẦN KIỂM TRA số khoản,partial
+L52-2014#D64,LDN-2020,external_ref,Chia tài sản đưa vào kinh doanh - theo pháp luật doanh nghiệp,yes
+L52-2014#D38,LCC-2024,external_ref,Công chứng văn bản thỏa thuận chia tài sản,yes
+L52-2014#D47,LCC-2024,external_ref,Thỏa thuận chế độ tài sản phải công chứng hoặc chứng thực,yes
+TTLT01-2016#D1,L52-2014#D11,implements,Phạm vi điều chỉnh,yes
+TTLT01-2016#D1,L52-2014#D50,implements,Phạm vi điều chỉnh,yes
+TTLT01-2016#D1,L52-2014#D59,implements,Phạm vi điều chỉnh,yes
+TTLT01-2016#D2,L52-2014#D8,implements,Căn cứ hủy việc kết hôn trái pháp luật,yes
+TTLT01-2016#D5,L52-2014#D50,implements,Thủ tục thỏa thuận chế độ tài sản,yes
+TTLT01-2016#D6,L52-2014#D31,implements,Xác định thỏa thuận vô hiệu,yes
+TTLT01-2016#D6,L52-2014#D50,implements,Xác định thỏa thuận vô hiệu,yes
+TTLT01-2016#D7,L52-2014#D59,implements,NGUYÊN TẮC CHIA TÀI SẢN - điều trung tâm của dự án,yes
+TTLT01-2016#D7,L52-2014#D60,implements,Nguyên tắc chia tài sản,yes
+TTLT01-2016#D7,L52-2014#D61,implements,Nguyên tắc chia tài sản,yes
+TTLT01-2016#D7,L52-2014#D62,implements,Nguyên tắc chia tài sản,yes
+TTLT01-2016#D7,L52-2014#D63,implements,Nguyên tắc chia tài sản,yes
+TTLT01-2016#D7,L52-2014#D64,implements,Nguyên tắc chia tài sản,yes
+NQ01-2024#D5,L52-2014#D66,implements,Hạn chế phân chia di sản,yes
