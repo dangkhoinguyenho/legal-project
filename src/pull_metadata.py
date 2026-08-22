@@ -1,5 +1,5 @@
 """
-Bước 2a — kéo phần metadata của bộ dữ liệu vbpl và tìm 24 văn bản trong allowlist.
+Bước 2a — kéo phần metadata của bộ dữ liệu vbpl và tìm các văn bản trong allowlist.
 
 MỤC ĐÍCH THẬT của script này KHÔNG phải là lấy dữ liệu.
 Nó là PHÉP THỬ: bộ dữ liệu trên Hugging Face có đủ mới để dùng được không?
@@ -23,95 +23,120 @@ OUT_MATCHED = OUT_DIR / "metadata_matched.csv"
 
 DATASET = "th1nhng0/vietnamese-legal-documents"
 
+# Tên cột có thể khác với trang mô tả -> script tự dò trong các tên có thể có.
+COT_SO_HIEU = ["so_ky_hieu", "so_hieu", "number", "document_number"]
+COT_NGAY_BH = ["ngay_ban_hanh", "issued_date", "date"]
+COT_HIEU_LUC = ["tinh_trang_hieu_luc", "status", "trang_thai"]
 
-def chuan_hoa(s: str) -> str:
-    """Bỏ dấu cách, chuyển hoa, bỏ ký tự lạ — để so số hiệu cho khớp.
-    '01/2016/TTLT-TANDTC-VKSNDTC-BTP' và '01/2016/TTLT-TANDTC-VKSNDTC-BTP ' là một."""
-    return re.sub(r"[^A-Z0-9/\-]", "", (s or "").upper())
+
+def chuan_hoa(s) -> str:
+    """Bỏ dấu cách, chuyển hoa, bỏ ký tự lạ — để so số hiệu cho khớp."""
+    return re.sub(r"[^A-Z0-9/\-]", "", str(s or "").upper())
+
+
+def tim_cot(co_san, ung_vien):
+    """Trả về tên cột đầu tiên trong `ung_vien` mà thực sự có trong dữ liệu."""
+    for c in ung_vien:
+        if c in co_san:
+            return c
+    return None
 
 
 def main() -> int:
     try:
         from datasets import load_dataset
     except ImportError:
-        print("THIEU THU VIEN. Chay lenh nay truoc:")
-        print("    pip install datasets pandas")
+        print("THIEU THU VIEN. Chay:  pip install datasets pandas")
         return 1
 
-    # --- 1. Đọc allowlist ---
     if not ALLOWLIST.exists():
         print(f"KHONG TIM THAY {ALLOWLIST}")
         return 1
 
     with ALLOWLIST.open(encoding="utf-8") as f:
         allow = [r for r in csv.DictReader(f) if r["so_hieu"].strip()]
-
     muc_tieu = {chuan_hoa(r["so_hieu"]): r for r in allow}
     print(f"Allowlist: {len(muc_tieu)} van ban co so hieu\n")
 
-    # --- 2. Tải metadata (KHÔNG tải content — content mới là 4GB) ---
-    print(f"Dang tai metadata tu {DATASET} ... (vai phut, ~vai tram MB)")
+    # --- Tải. KHÔNG lấy config 'content' — cái đó mới là vài GB. ---
+    print(f"Dang tai metadata tu {DATASET} ...")
     try:
-        ds = load_dataset(DATASET, "metadata", split="train")
+        tat_ca = load_dataset(DATASET, "metadata")
     except Exception as e:
         print(f"TAI THAT BAI: {type(e).__name__}: {e}")
         print("\nBao lai loi nay cho Claude, dung tu sua.")
         return 1
 
-    print(f"Tai xong: {len(ds):,} dong\n")
+    # Không đoán tên split nữa — dò.
+    ten_split = "train" if "train" in tat_ca else list(tat_ca.keys())[0]
+    ds = tat_ca[ten_split]
+    cols = list(ds.column_names)
 
-    # --- 3. PHÉP THỬ SỐ 1: dữ liệu mới tới đâu? ---
-    ngay = [d for d in ds["ngay_ban_hanh"] if d]
-    if ngay:
-        print("=" * 60)
-        print("PHEP THU 1 - DO MOI CUA DU LIEU")
-        print(f"  Ngay ban hanh cu nhat : {min(ngay)}")
-        print(f"  Ngay ban hanh moi nhat: {max(ngay)}")
-        print("  -> Neu moi nhat < 2025-07, snapshot DA CU. Bao cho Claude.")
-        print("=" * 60 + "\n")
+    print(f"Tai xong: {len(ds):,} dong  (split='{ten_split}')")
+    print(f"Cac cot co that trong du lieu:\n  {cols}\n")
 
-    # --- 4. PHÉP THỬ SỐ 2: tìm được bao nhiêu trong 24 văn bản? ---
-    tim_thay: dict[str, dict] = {}
+    c_so = tim_cot(cols, COT_SO_HIEU)
+    c_ngay = tim_cot(cols, COT_NGAY_BH)
+    c_hl = tim_cot(cols, COT_HIEU_LUC)
+
+    if not c_so:
+        print(f"KHONG TIM THAY COT SO HIEU. Da thu: {COT_SO_HIEU}")
+        print("Gui danh sach cot o tren cho Claude.")
+        return 1
+    print(f"Dung cot so hieu   : {c_so}")
+    print(f"Dung cot ngay bh   : {c_ngay or '(khong co)'}")
+    print(f"Dung cot hieu luc  : {c_hl or '(khong co)'}\n")
+
+    # --- PHÉP THỬ 1: dữ liệu mới tới đâu? ---
+    if c_ngay:
+        ngay = sorted(d for d in ds[c_ngay] if d)
+        if ngay:
+            print("=" * 62)
+            print("PHEP THU 1 - DO MOI CUA DU LIEU")
+            print(f"  Cu nhat : {ngay[0]}")
+            print(f"  Moi nhat: {ngay[-1]}")
+            print("  -> Neu moi nhat < 2025-07 thi snapshot DA CU.")
+            print("=" * 62 + "\n")
+
+    # --- PHÉP THỬ 2: tìm được bao nhiêu văn bản? ---
+    tim_thay = {}
     for row in ds:
-        key = chuan_hoa(row.get("so_ky_hieu", ""))
-        if key in muc_tieu and key not in tim_thay:
-            tim_thay[key] = row
+        k = chuan_hoa(row.get(c_so))
+        if k in muc_tieu and k not in tim_thay:
+            tim_thay[k] = row
 
-    print("=" * 60)
-    print("PHEP THU 2 - TIM 24 VAN BAN TRONG ALLOWLIST")
-    print("=" * 60)
-
+    print("=" * 62)
+    print("PHEP THU 2 - TIM CAC VAN BAN TRONG ALLOWLIST")
+    print("=" * 62)
     thieu = []
-    for key, r in muc_tieu.items():
-        hit = tim_thay.get(key)
+    for k, r in muc_tieu.items():
+        hit = tim_thay.get(k)
         if hit:
-            print(f"  [CO ] {r['so_hieu']:38} | {hit.get('tinh_trang_hieu_luc') or '(trong)'}")
+            tt = (hit.get(c_hl) if c_hl else None) or "(trong)"
+            print(f"  [CO ] {r['so_hieu']:38} | {tt}")
         else:
-            print(f"  [MAT] {r['so_hieu']:38} | {r['ten_van_ban'][:40]}")
+            print(f"  [MAT] {r['so_hieu']:38} | {r['ten_van_ban'][:38]}")
             thieu.append(r)
-
     print(f"\n  Tim thay {len(tim_thay)}/{len(muc_tieu)}")
 
-    # --- 5. Ghi kết quả ---
+    # --- Ghi kết quả ---
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     if tim_thay:
-        cols = list(next(iter(tim_thay.values())).keys())
+        fieldnames = cols
         with OUT_MATCHED.open("w", encoding="utf-8", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=cols)
+            w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
             w.writeheader()
             for row in tim_thay.values():
-                w.writerow(row)
+                w.writerow({k: row.get(k) for k in fieldnames})
         print(f"\n  Da ghi: {OUT_MATCHED.relative_to(REPO)}")
 
-    # --- 6. Kết luận ---
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 62)
     if thieu:
         print(f"KET QUA: THIEU {len(thieu)} VAN BAN.")
-        print("Chup man hinh phan [MAT] o tren gui cho Claude.")
-        print("Neu thieu cac van ban 2024-2025 -> snapshot cu -> phai doi ke hoach.")
+        print("Gui phan [MAT] o tren cho Claude.")
     else:
-        print("KET QUA: DU CA 24. Bo du lieu dung duoc.")
-    print("=" * 60)
+        print("KET QUA: DU HET. Bo du lieu dung duoc.")
+    print("=" * 62)
     return 0
 
 
