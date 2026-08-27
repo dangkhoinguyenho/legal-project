@@ -1,29 +1,39 @@
 """
-Kiểm tra hiệu lực của văn bản — lớp kiểm tra tất định (không dùng model).
+Effectiveness check — deterministic, no model involved.
 
-Đây là DATA-08 của dự án này: check phải ĐỔ TO khi sai, không được im lặng bỏ qua.
+WHY THIS WAS REWRITTEN
+======================
+Version 1 asked one question: "is this document in force today?" and BLOCKED
+anything that was not. The eval set proved that wrong on its first real case.
 
-THIẾT KẾ DỰA TRÊN DỮ LIỆU THẬT, không dựa trên trang mô tả:
+Bản án 111/2024/HNGĐ-ST, decided 30/8/2024, cites in its Căn cứ block:
 
-1. `ngay_het_hieu_luc` TRỐNG ở cả 22/22 văn bản đã lấy về -> KHÔNG dùng nó làm
-   nguồn chính. Thiết kế cũ của tôi giả định trường này có dữ liệu. Sai.
+    "Các Điều 95, 97, 98 Luật hôn nhân và gia đình năm 2000;
+     ... Khoản 2, khoản 3 Điều 170 Luật đất đai năm 2013."
 
-2. `tinh_trang_hieu_luc` có ba giá trị, không phải hai:
-   "Còn hiệu lực" / "Hết hiệu lực" / "Hết hiệu lực một phần"
-   9/22 văn bản là "một phần" — kể cả Nghị định 126/2014 và BLTTDS 2015, đều là
-   văn bản core. "Một phần" nghĩa là MỘT SỐ ĐIỀU đã chết, nhưng dữ liệu KHÔNG
-   nói điều nào. Nên không được coi là an toàn, cũng không được coi là hỏng.
+Both statutes are long replaced. The court was still right: the property was
+formed while they were in force. Điều 58 khoản 2 Luật Ban hành VBQPPL requires
+applying the document in force AT THE TIME OF THE EVENT.
 
-3. Điều 58 khoản 2 Luật BHVBQPPL: áp dụng văn bản có hiệu lực TẠI THỜI ĐIỂM
-   XẢY RA SỰ VIỆC. Nên hàm này bắt buộc nhận `ngay_su_viec`, không mặc định hôm nay.
+Án lệ 03/2016/AL goes further — it cites Luật HNGĐ 1986 and Bộ luật Dân sự 1995,
+both dead before the án lệ was even published, and it remains in effect today.
 
-4. DỮ LIỆU CÓ NGÀY VÔ LÝ. Trong kho có văn bản đề ngày 13/03/**3024**. Nó ĐÚNG
-   ĐỊNH DẠNG nên mọi kiểm tra định dạng đều cho qua. Kiểm định dạng KHÔNG PHẢI
-   kiểm mức hợp lý. Nên có thêm chặn khoảng năm.
+So "hết hiệu lực" is NOT an error. The real error is the opposite: citing a
+document that did not yet exist when the facts happened.
 
-NGUYÊN TẮC: dùng HAI tín hiệu độc lập (ngày và chuỗi trạng thái). Nếu chúng
-mâu thuẫn nhau -> báo lỗi to. Một tín hiệu im lặng sai thì nguy hiểm hơn hai
-tín hiệu cãi nhau.
+THE CORE IDEA: a fact pattern has SEVERAL time anchors, not one.
+
+    2005 ────── 2015 ────── 2023 ────── 2024
+    married     bought      divorced    judgment
+                land
+       |          |            |
+       +- LHNGĐ 2000 ----------+- LHNGĐ 2014
+
+"Is this asset chung or riêng" is judged by the law at acquisition.
+"How is it divided" is judged by the law at divorce. Both are correct, at once.
+
+So this module labels rather than blocks, and every label is tied to a named
+anchor — never to "today".
 """
 
 from __future__ import annotations
@@ -31,41 +41,53 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime
 
-# --- Kết luận có thể có ---
-OK = "OK"                              # dùng được
-CHUA_CO_HIEU_LUC = "CHUA_CO_HIEU_LUC"  # trích luật chưa ra đời tại thời điểm đó
-HET_HIEU_LUC = "HET_HIEU_LUC"          # trích luật đã chết
-MOT_PHAN = "HET_HIEU_LUC_MOT_PHAN"     # phải kiểm tay ở mức điều khoản
-THIEU_DU_LIEU = "THIEU_DU_LIEU"        # không đủ dữ liệu để kết luận
-MAU_THUAN = "MAU_THUAN_DU_LIEU"        # hai tín hiệu cãi nhau -> dữ liệu có vấn đề
-NGAY_VO_LY = "NGAY_VO_LY"              # ngày đúng định dạng nhưng không thể có thật
+# ---- Verdicts ----
+CON_HIEU_LUC = "CON_HIEU_LUC"              # in force at the anchor
+LUAT_CU_HOP_LE = "LUAT_CU_HOP_LE"          # dead now, alive then -> LEGITIMATE
+MOT_PHAN = "HET_HIEU_LUC_MOT_PHAN"         # partially dead, needs article check
+CHUA_RA_DOI = "CHUA_RA_DOI"                # not yet in force then -> REAL ERROR
+DA_CHET_TRUOC_MOC = "DA_CHET_TRUOC_MOC"    # already dead then -> REAL ERROR
+THIEU_DU_LIEU = "THIEU_DU_LIEU"
+MAU_THUAN = "MAU_THUAN_DU_LIEU"
+NGAY_VO_LY = "NGAY_VO_LY"
 
-CHAN = {CHUA_CO_HIEU_LUC, HET_HIEU_LUC, THIEU_DU_LIEU, MAU_THUAN, NGAY_VO_LY}
+# Only these block a citation. Note what is NOT here: LUAT_CU_HOP_LE.
+CHAN = {CHUA_RA_DOI, DA_CHET_TRUOC_MOC, THIEU_DU_LIEU, MAU_THUAN, NGAY_VO_LY}
 
-# Văn bản QPPL của nước CHXHCN Việt Nam. Nới rộng về 1945 cho an toàn.
-NAM_SOM_NHAT = 1945
-NAM_MUON_NHAT = 2100
+# Format-valid is not the same as plausible. The corpus contains a document
+# dated 13/03/3024, which parses cleanly and is nonsense.
+NAM_SOM_NHAT, NAM_MUON_NHAT = 1945, 2100
+
+
+@dataclass
+class Moc:
+    """A named point in time that a citation is ABOUT."""
+    ten: str      # e.g. "tài sản hình thành", "ly hôn", "xét xử"
+    ngay: date
 
 
 @dataclass
 class KetQua:
     ma: str
     so_hieu: str
+    moc: str
     thong_diep: str
 
     @property
     def bi_chan(self) -> bool:
-        """True = KHÔNG được phép trích dẫn văn bản này."""
         return self.ma in CHAN
 
     @property
     def can_kiem_tay(self) -> bool:
         return self.ma == MOT_PHAN
 
+    def __str__(self) -> str:
+        return f"[{self.ma}] {self.so_hieu} @ {self.moc}: {self.thong_diep}"
 
-def doc_ngay(s: str | None) -> date | None:
-    """Dữ liệu vbpl dùng DD/MM/YYYY. Trả None nếu trống hoặc sai định dạng."""
-    s = (s or "").strip()
+
+def doc_ngay(s) -> date | None:
+    """vbpl uses DD/MM/YYYY. Returns None on empty or malformed input."""
+    s = str(s or "").strip()
     if not s:
         return None
     try:
@@ -75,54 +97,72 @@ def doc_ngay(s: str | None) -> date | None:
 
 
 def ngay_hop_ly(d: date | None) -> bool:
-    """Định dạng đúng chưa đủ. 13/03/3024 parse ngon lành nhưng vô lý."""
     return d is None or NAM_SOM_NHAT <= d.year <= NAM_MUON_NHAT
 
 
-def kiem_tra(doc: dict, ngay_su_viec: date) -> KetQua:
-    """doc = một dòng metadata từ vbpl. ngay_su_viec = ngày xảy ra sự việc."""
+def kiem_tra(doc: dict, moc: Moc, ngay_het_suy_ra: date | None = None) -> KetQua:
+    """Check one document against ONE time anchor.
+
+    `ngay_het_suy_ra` lets the caller supply an expiry date derived from the
+    relationship graph. This matters: `ngay_het_hieu_luc` is empty in all 22
+    documents we pulled, so the graph is often the only way to know WHEN a
+    document died. Example: 22/2000/QH10 was ended by 52/2014/QH13, whose
+    ngay_co_hieu_luc is 01/01/2015 -> that is when LHNGĐ 2000 died.
+    """
     so_hieu = (doc.get("so_ky_hieu") or "?").strip()
     trang_thai = (doc.get("tinh_trang_hieu_luc") or "").strip()
     hl_tu = doc_ngay(doc.get("ngay_co_hieu_luc"))
-    het = doc_ngay(doc.get("ngay_het_hieu_luc"))
+    het = doc_ngay(doc.get("ngay_het_hieu_luc")) or ngay_het_suy_ra
 
-    # --- Chặn 0: ngày có hợp lý không? ---
+    def kq(ma, msg):
+        return KetQua(ma, so_hieu, moc.ten, msg)
+
+    # --- Gate 0: implausible dates ---
     for ten, d in (("ngay_co_hieu_luc", hl_tu), ("ngay_het_hieu_luc", het)):
         if not ngay_hop_ly(d):
-            return KetQua(NGAY_VO_LY, so_hieu,
-                          f"{ten} = {d} — dung dinh dang nhung nam ngoai "
-                          f"[{NAM_SOM_NHAT}, {NAM_MUON_NHAT}]. Du lieu hong.")
-    if not ngay_hop_ly(ngay_su_viec):
-        return KetQua(NGAY_VO_LY, so_hieu, f"ngay_su_viec = {ngay_su_viec} vo ly.")
+            return kq(NGAY_VO_LY, f"{ten}={d} parses but year is outside "
+                                  f"[{NAM_SOM_NHAT},{NAM_MUON_NHAT}]. Data is broken.")
+    if not ngay_hop_ly(moc.ngay):
+        return kq(NGAY_VO_LY, f"anchor date {moc.ngay} is implausible.")
 
-    # --- Tín hiệu 1: ngày ---
     if hl_tu is None:
-        return KetQua(THIEU_DU_LIEU, so_hieu,
-                      "Thiếu ngay_co_hieu_luc — không kết luận được. Kiểm tay trên vbpl.vn.")
-    if ngay_su_viec < hl_tu:
-        return KetQua(CHUA_CO_HIEU_LUC, so_hieu,
-                      f"Có hiệu lực từ {hl_tu:%d/%m/%Y}, sau sự việc {ngay_su_viec:%d/%m/%Y}.")
-    ngay_noi_chet = het is not None and ngay_su_viec >= het
-
-    # --- Tín hiệu 2: chuỗi trạng thái ---
+        return kq(THIEU_DU_LIEU, "no ngay_co_hieu_luc — cannot place it in time.")
     if not trang_thai:
-        return KetQua(THIEU_DU_LIEU, so_hieu, "Thiếu tinh_trang_hieu_luc.")
+        return kq(THIEU_DU_LIEU, "no tinh_trang_hieu_luc.")
+
+    # --- Gate 1: did it exist yet? This is the REAL error. ---
+    if moc.ngay < hl_tu:
+        return kq(CHUA_RA_DOI,
+                  f"in force from {hl_tu:%d/%m/%Y}, which is AFTER "
+                  f"{moc.ten} ({moc.ngay:%d/%m/%Y}). Cannot govern these facts.")
+
+    # --- Gate 2: had it already died by then? Also an error. ---
+    if het is not None and moc.ngay >= het:
+        return kq(DA_CHET_TRUOC_MOC,
+                  f"expired {het:%d/%m/%Y}, before {moc.ten} ({moc.ngay:%d/%m/%Y}).")
+
+    # It was alive at the anchor. Now describe its status TODAY.
     co_mot_phan = "một phần" in trang_thai.lower()
-    chuoi_noi_chet = trang_thai.lower().startswith("hết hiệu lực") and not co_mot_phan
+    chet_bay_gio = trang_thai.lower().startswith("hết hiệu lực") and not co_mot_phan
 
-    # --- Đối chiếu hai tín hiệu ---
-    if ngay_noi_chet != chuoi_noi_chet and not co_mot_phan:
-        return KetQua(MAU_THUAN, so_hieu,
-                      f"Ngày và trạng thái mâu thuẫn: het={het}, trang_thai={trang_thai!r}. "
-                      "Dữ liệu có vấn đề — không được đoán.")
-    if chuoi_noi_chet or ngay_noi_chet:
-        return KetQua(HET_HIEU_LUC, so_hieu, f"Đã hết hiệu lực ({trang_thai}).")
+    # Cross-check: two independent signals must agree.
+    if het is not None and not chet_bay_gio and not co_mot_phan:
+        return kq(MAU_THUAN,
+                  f"expiry date {het:%d/%m/%Y} but status is {trang_thai!r}. "
+                  "Signals disagree — not guessing.")
+
+    if chet_bay_gio:
+        return kq(LUAT_CU_HOP_LE,
+                  f"no longer in force today, but WAS in force at {moc.ten} "
+                  f"({moc.ngay:%d/%m/%Y}). Citing it is correct — Điều 58 khoản 2.")
     if co_mot_phan:
-        return KetQua(MOT_PHAN, so_hieu,
-                      "Hết hiệu lực MỘT PHẦN. Dữ liệu không nói điều nào đã chết — "
-                      "phải kiểm tay điều khoản được trích trên vbpl.vn.")
-    return KetQua(OK, so_hieu, f"Còn hiệu lực tại {ngay_su_viec:%d/%m/%Y}.")
+        return kq(MOT_PHAN,
+                  "partially expired. The data does not say which articles — "
+                  "check the cited article against article_status.csv.")
+    return kq(CON_HIEU_LUC, f"in force at {moc.ten} ({moc.ngay:%d/%m/%Y}).")
 
 
-def kiem_tra_ca_bo(docs: list[dict], ngay_su_viec: date) -> list[KetQua]:
-    return [kiem_tra(d, ngay_su_viec) for d in docs]
+def kiem_tra_nhieu_moc(doc: dict, mocs: list[Moc],
+                       ngay_het_suy_ra: date | None = None) -> list[KetQua]:
+    """A property case spans several anchors. Check the document against each."""
+    return [kiem_tra(doc, m, ngay_het_suy_ra) for m in mocs]
