@@ -37,7 +37,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from force_check import Moc, kiem_tra          # noqa: E402
-from retrieve import BM25, Embed, hop_nhat, nap_corpus  # noqa: E402
+from retrieve import (BM25, Embed, hop_nhat, lam_sach_truy_van,  # noqa: E402
+                      nap_corpus)
 
 REPO = Path(__file__).resolve().parent.parent
 RELATIONS = REPO / "data" / "article_relations.csv"
@@ -99,8 +100,9 @@ def chay(tinh_huong: str, mocs: list[Moc], k: int = 12, mo_rong: bool = True,
     theo_ref = {d["ref"]: d for d in corpus}
 
     # Retrieve wider than we display: the scope gate removes what does not belong.
-    bm_hits = bm.tim(tinh_huong, k * 2)
-    em_hits = em.tim(tinh_huong, k * 2) if (em and em.san_sang) else []
+    tv = lam_sach_truy_van(tinh_huong)
+    bm_hits = bm.tim(tv, k * 2)
+    em_hits = em.tim(tv, k * 2) if (em and em.san_sang) else []
     tron = hop_nhat(bm_hits, em_hits, k) if em_hits else [
         (d, s, "bm25") for d, s in bm_hits]
 

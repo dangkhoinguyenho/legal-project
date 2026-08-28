@@ -33,6 +33,19 @@ STOP = {
 }
 
 
+def lam_sach_truy_van(s: str) -> str:
+    """Strip what carries no legal signal: amounts, dates, areas, anonymised
+    initials. A fact pattern says "127,8 m2", "43.000.000 đồng", "ông L",
+    "31/12/2002" — none of that appears in a statute, and embeddings average
+    the whole query, so this noise drags the vector toward generic articles.
+    The sanity check in embed.py found Điều 60 at rank 7 with a SHORT query;
+    the full fact pattern buried it."""
+    s = re.sub(r"\d[\d.,]*\s*(m2|m²|đồng|triệu|tỷ)?", " ", s)
+    s = re.sub(r"\b(ông|bà|anh|chị)\s+[A-ZĐ]\b", " ", s)
+    s = re.sub(r"\bnăm\s+\b", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def tach_tu(s: str) -> list[str]:
     """Lowercase, strip punctuation, return unigrams + bigrams."""
     s = re.sub(r"[^\w\sÀ-ỹ]", " ", str(s or "").lower())
@@ -118,32 +131,43 @@ class Embed:
 
 def hop_nhat(bm: list[tuple[dict, float]], em: list[tuple[dict, float]],
              k: int = 12) -> list[tuple[dict, float, str]]:
-    """UNION, not fusion. Embeddings may ADD results, never displace BM25's.
+    """INTERLEAVE the two lists: bm25#1, embed#1, bm25#2, embed#2, ...
 
-    WHY NOT RANK FUSION — this was measured, not guessed.
-    v1 used reciprocal rank fusion, score = 1/(60 + rank), then cut to k.
-    With only 12 candidates per list that constant flattens everything:
+    v1 (rank fusion) flattened ranks into noise — 1/(60+rank) spans 15% across
+    a 12-item list. Recall fell 46% -> 38%.
 
-        rank 1  -> 1/61 = 0.01639
-        rank 12 -> 1/72 = 0.01389        a 15% spread across the WHOLE list
+    v2 (union) appended ALL of BM25 and then ALL of embeddings. Measured with
+    eval/diagnose_ranking.py, that put every embeddings-only correct answer at
+    position 10 or worse:
 
-    So ordering among single-source hits became close to arbitrary, and FP02
-    lost Điều 61 and Điều 63 — correct BM25 hits pushed out by mediocre
-    embedding hits. Recall fell 46% -> 38%.
+        Đ59 #10   Đ60 #11   Đ213 #13   Đ7 #14   Đ37 #14   Đ43 #17   Đ63 #32
+        all of them  nguon=embed
 
-    RRF's k=60 assumes lists of several hundred. Ours are twelve. Rather than
-    tune a constant on six examples, take the union and let the scope gate and
-    the graph handle precision — both of which are already measured to work.
+    Embeddings' best result was queuing behind BM25's twenty-fourth. That is
+    not a ranking, it is a filing order.
+
+    v3 alternates, so rank 1 of either method beats rank 2 of the other. An
+    article found by BOTH keeps its earlier position and is marked, which lets
+    the pipeline put it in the top band — and band 0 is measurably the good
+    one: its hits land at positions 1, 1, 1, 3, 3, 5.
     """
-    ra: list[tuple[dict, float, str]] = []
-    da_co: set[str] = set()
-    for ten, ds in (("bm25", bm), ("embed", em)):
-        for d, sc in ds:
-            if d["ref"] in da_co:
-                for i, (dd, ss, ng) in enumerate(ra):
-                    if dd["ref"] == d["ref"] and ten not in ng:
-                        ra[i] = (dd, ss, ng + "+" + ten)
-                continue
-            da_co.add(d["ref"])
-            ra.append((d, sc, ten))
-    return ra
+    thu_tu: list[tuple[dict, float, str]] = []
+    da_co: dict[str, int] = {}
+
+    def them(d, sc, ten):
+        ref = d["ref"]
+        if ref in da_co:                       # seen already -> mark agreement
+            i = da_co[ref]
+            dd, ss, ng = thu_tu[i]
+            if ten not in ng:
+                thu_tu[i] = (dd, ss, ng + "+" + ten)
+            return
+        da_co[ref] = len(thu_tu)
+        thu_tu.append((d, sc, ten))
+
+    for i in range(max(len(bm), len(em))):
+        if i < len(bm):
+            them(bm[i][0], bm[i][1], "bm25")
+        if i < len(em):
+            them(em[i][0], em[i][1], "embed")
+    return thu_tu
